@@ -28,7 +28,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1' # 안정적인 루비 3.1 버전을 사용합니다.
+          ruby-version: '3.2' # 안정적인 루비 3.2 버전을 사용합니다.
           bundler-cache: true # 빌드 속도를 높이기 위해 캐시를 사용합니다.
       - name: Setup Pages
         id: pages
