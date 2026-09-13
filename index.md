@@ -3,13 +3,11 @@ title: "[노리플라이] 그대 걷던길"
 layout: splash
 author_profile: false
 header:
-  overlay_color: "#000"
-  overlay_filter: "0.3"
   overlay_image: /assets/images/244/img.jpg
   actions:
     - label: "Read more"
       url: "/244"
-excerpt: "한국 인디 음악의 황금기를 상징하는 팀이자, **완벽한 서정성**을 가진 밴드 노리플라이(no reply)의 데뷔 정규 1집 [Road]의 타이틀곡, **그대 걷던 길**을 소개해드리겠습니다. 2009년 발매된 이 곡은 인디록과 포크의 결을 섬세하게 섞어 **노리플라이**를 ‘감성 밴드’의 대명사로 각인시킨 명곡입니다. "
+excerpt: "한국 인디 음악의 황금기를 상징하는 팀이자, **완벽한 서정성**을 가진 밴드 노리플라이(no reply)의 2009년 데뷔 정규 1집 [Road]의 타이틀곡, **그대 걷던 길**은 인디록과 포크의 결을 섬세하게 섞어 **노리플라이**를 ‘감성 밴드’의 대명사로 각인시킨 명곡입니다. "
 ---
 
 <style>
