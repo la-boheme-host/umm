@@ -5,6 +5,12 @@ name: "한스의 음악 저장소."
 description: "한스의 음악 저장소."
 # 기본 사이트 정보
 
+# 구글 애널리틱스 연동 설정
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "G-S750MXMR6X" # 정확한 측정 ID로 교체합니다. 쌍따옴표는 유지해 주세요!
+    
 # 작성자(Author) 프로필 정보 (사이드바 프로필 활성화를 위한 필수 데이터)
 author:
   name: "haanss"
