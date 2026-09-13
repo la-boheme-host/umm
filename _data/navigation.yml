@@ -14,15 +14,16 @@ main:
 docs:
   - title: "CD cover gallery"
     url: /gallery/
-  - title: Music    
+  - title: Music
+    url: /categories/music/
     children:
       - title: "K-pop"
-        url: /categories/music-K-pop/
+        url: /categories/music-k-pop/
       - title: "POP"
         url: /categories/music-pop/
       - title: "OST"
         url: /categories/music-ost/
-      - title: "jazz"
+      - title: "Jazz"
         url: /categories/music-jazz/
       - title: "Classic"
         url: /categories/music-classic/
@@ -31,7 +32,6 @@ docs:
   - title: Daily
     children:
       - title: "Daily Life"
-        url: /categories/music-daily/
       - title: "Cafe"
         url: /categories/daily-cafe/
       - title: "Yammy"
@@ -49,4 +49,4 @@ docs:
       - title: "Celebrity"
         url: /categories/news-celeb/
       - title: "Events"
-        url: /categories/news-events/
+        url: /categories/news-event/
