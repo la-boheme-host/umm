@@ -1,13 +1,15 @@
 ---
-title: "[노리플라이] 그대 걷던길"
+title: "[아이유] 이별로부터 내 영혼의 단짝까지"
 layout: splash
 author_profile: false
 header:
-  overlay_image: /assets/images/244/img.jpg
+  overlay_color: "#000"
+  overlay_filter: "0.3"
+  overlay_image: /assets/images/245/img_1.jpg
   actions:
     - label: "Read more"
-      url: "/244"
-excerpt: "한국 인디 음악의 황금기를 상징하는 팀이자, **완벽한 서정성**을 가진 밴드 노리플라이(no reply)의 2009년 데뷔 정규 1집 [Road]의 타이틀곡, **그대 걷던 길**은 인디록과 포크의 결을 섬세하게 섞어 **노리플라이**를 ‘감성 밴드’의 대명사로 각인시킨 명곡입니다. "
+      url: "/245"
+excerpt: "아이유의 이번 새 싱글 앨범에는 이별에 관한 노래와 아이유에겐 연상이지만 가장 친한 친구인 유인나를 위한 우정을 노래한 곡 2곡이 담겼습니다. "
 ---
 
 <style>

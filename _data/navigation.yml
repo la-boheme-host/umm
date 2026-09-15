@@ -1,6 +1,6 @@
 # 상단 메인 네비게이션 설정
 main:
-  - title: "CD"
+  - title: "Cover View"
     url: /gallery/
   - title: "Posts"
     url: /posts/
