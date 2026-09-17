@@ -12,7 +12,7 @@ author_profile: false
 #excerpt: "아이유의 이번 새 싱글 앨범에는 이별에 관한 노래와 아이유에겐 연상이지만 가장 친한 친구인 유인나를 위한 우정을 노래한 곡 2곡이 담겼습니다. "
 ---
 
-<!-- 1. 지킬(Liquid) 변수 선언 -->
+<!-- 1. 지킬(Liquid) 변수 선언: 최신 포스팅과 이미지 데이터를 먼저 찾아옵니다. -->
 {% assign latest_post = site.posts.first %}
 {% assign latest_img = latest_post.header.overlay_image | default: latest_post.teaser | default: '/assets/images/default-hero.jpg' %}
 
@@ -26,12 +26,13 @@ author_profile: false
     margin-left: -50vw;
     margin-right: -50vw;
     margin-bottom: 2rem;
-    background-color: #000000; /* 투명도 100%일 때 배경 틈새가 뜰 경우를 대비한 어두운 베이스 */
-    padding: 5rem 0; 
+    /* 베이스가 되는 연한 파스텔 투톤 그라데이션 */
+    background: linear-gradient(135deg, #e3eeff 0%, #f3e7e9 100%);
+    padding: 6rem 0;
     overflow: hidden;
   }
   
-  /* 배경 이미지용 가상 레이어 */
+  /* 배경 이미지용 가상 레이어 (블러 및 투명도 적용) */
   .custom-hero-wrapper::before {
     content: "";
     position: absolute;
@@ -40,123 +41,99 @@ author_profile: false
     background-size: cover;
     background-position: center;
     
-    /* [수정 2] 투명도를 1(100%)로 설정하여 배경 색감을 완전히 살림 */
-    opacity: 1;
-    filter: blur(20px);
-    transform: scale(1.15);
+    /* 투명도와 블러 효과 조절 */
+    opacity: 10;
+    filter: blur(10px);
+    
+    /* 블러 처리 시 화면 가장자리가 하얗게 뜨는 현상을 방지하기 위해 크기를 살짝 키움 */
+    transform: scale(1.1);
     z-index: 1;
   }
   
   .custom-hero-inner {
     position: relative;
-    z-index: 2;
+    z-index: 2; /* 텍스트와 CD 이미지가 블러 배경 위로 올라오도록 설정 */
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 1em;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8%; 
+    gap: 4rem;
   }
   
   /* 왼쪽 텍스트 영역 */
   .custom-hero-text {
-    flex: 1.3; 
+    flex: 1;
     text-align: left;
   }
   
   .custom-hero-text h1 {
-    font-size: 2.1rem;
+    font-size: 2rem; 
     margin-bottom: 1rem;
     color: #ffffff; 
-    line-height: 1.3;
+    line-height: 1.4;
     font-weight: 800;
-    letter-spacing: -0.5px;
-    text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.9); /* 배경이 진해졌으므로 텍스트 그림자를 약간 더 강하게 유지 */
   }
   
   .custom-hero-text p {
     font-size: 1.15rem;
     line-height: 1.6;
     margin-bottom: 2rem;
-    color: #ffffff; 
-    text-shadow: 0px 1px 6px rgba(0, 0, 0, 0.8);
+    color: #ffffff; /* 블러 배경에 묻히지 않도록 글씨 색상을 살짝 더 진하게 조정 */
   }
-  /* 버튼 스타일 */
+  
+  /* 순정 버튼 스타일 */
   .custom-hero-btn {
     display: inline-block;
-    padding: 12px 25px;
+    padding: 12px 24px;
     background-color: transparent;
-    color: #ffffff !important; /* 테마의 기본 파란색 링크를 무시하고 흰색을 강제 적용 */
-    border: 2px solid #ffffff;
-    border-radius: 5px;
+    color: #333333;
+    border: 2px solid #333333;
+    border-radius: 4px;
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;
-    text-shadow: 0px 1px 3px rgba(0,0,0,0.8);
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.4);
   }
   
   .custom-hero-btn:hover {
-    background-color: #ffffff;
-    color: #222222 !important; /* 마우스 오버 시 기존처럼 어두운 색상 유지 */
-    text-shadow: none;
+    background-color: #333333;
+    color: #ffffff;
   }
-
+  
   /* 오른쪽 3D CD 케이스 이미지 영역 */
   .custom-hero-visual {
-    flex: 0.7; 
+    flex: 1;
     display: flex;
-    justify-content: flex-end; 
+    justify-content: center;
     align-items: center;
-    perspective: 1200px; 
-  }
-
-  /* [수정 1] rotateY를 음수로 변경하여 왼쪽이 화면 안쪽으로 물러나게 만듦 */
-  @keyframes floatCD {
-    0% {
-      transform: rotateY(-18deg) rotateX(5deg) scale(1.05) translateY(0px);
-    }
-    50% {
-      transform: rotateY(-22deg) rotateX(1deg) scale(1.05) translateY(-15px);
-    }
-    100% {
-      transform: rotateY(-18deg) rotateX(5deg) scale(1.05) translateY(0px);
-    }
+    perspective: 1000px; 
   }
   
   .cd-case-img {
     width: 100%;
-    max-width: 380px;
+    max-width: 400px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    
-    /* 아크릴(플라스틱) 느낌을 살린 밝고 투명한 두께 표현 */
+    transform: rotateY(-20deg) rotateX(5deg) scale(1.05);
     box-shadow: 
-      inset 1px 0px 4px rgba(255, 255, 255, 0.6), /* 표면 안쪽의 부드러운 빛 반사 */
-      1px 0px 0px rgba(200, 200, 200, 0.9),       /* 플라스틱 모서리의 쨍한 하이라이트 */
-      2px 0px 0px rgba(190, 190, 190, 0.8),       /* 맑은 두께감 1 */
-      3px 0px 0px rgba(180, 180, 180, 0.7),       /* 맑은 두께감 2 */
-      4px 0px 0px rgba(170, 170, 170, 0.5),       /* 맑은 두께감 3 */
-      5px 0px 0px rgba(160, 160, 160, 0.3),       /* 굴절되어 살짝 그림자지는 끝부분 */
-      25px 35px 50px rgba(0, 0, 0, 0.5);          /* 바닥에 떨어지는 부드러운 진짜 그림자 */
-      
-    border-radius: 2px 4px 4px 2px;
-    
-    animation: floatCD 6s ease-in-out infinite;
-    transition: box-shadow 0.6s ease;
+      -1px 0px 1px #222222,
+      -2px 0px 1px #999999,
+      -3px 0px 1px #999999,
+      -4px 0px 1px #999999,
+      -5px 0px 1px #999999,
+      -35px 25px 45px rgba(0, 0, 0, 0.15);
+    border-radius: 2px 6px 6px 2px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
   }
   
   .cd-case-img:hover {
-    animation-play-state: paused;
-    transform: rotateY(-8deg) rotateX(2deg) scale(1.1);
+    transform: rotateY(-5deg) rotateX(2deg) scale(1.1);
     box-shadow: 
-      inset 1px 0px 4px rgba(255, 255, 255, 0.8),
-      1px 0px 0px rgba(200, 200, 200, 0.9),       /* 플라스틱 모서리의 쨍한 하이라이트 */
-      2px 0px 0px rgba(190, 190, 190, 0.8),       /* 맑은 두께감 1 */
-      3px 0px 0px rgba(180, 180, 180, 0.7),       /* 맑은 두께감 2 */
-      4px 0px 0px rgba(170, 170, 170, 0.5),       /* 맑은 두께감 3 */
-      30px 40px 50px rgba(0, 0, 0, 0.4);
+      -1px 0px 1px #222222,
+      -2px 0px 1px #999999,
+      -3px 0px 1px #999999,
+      -40px 35px 55px rgba(0, 0, 0, 0.12);
   }
   
   @media (max-width: 768px) {
@@ -165,13 +142,12 @@ author_profile: false
       padding: 0 2em;
     }
     .custom-hero-visual {
-      justify-content: center;
       margin-top: 2rem;
     }
   }
 </style>
 
-<!-- 2. 풀와이드 동적 히어로 영역 HTML -->
+<!-- 2. 풀와이드 동적 히어로 영역 -->
 <div class="custom-hero-wrapper">
   <div class="custom-hero-inner">
     
