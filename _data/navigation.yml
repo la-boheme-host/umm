@@ -12,7 +12,7 @@ main:
     url: /about/
 
 docs:
-  - title: "CD cover gallery"
+  - title: "cover gallery"
     url: /gallery/
   - title: Music
     url: /categories/music/
@@ -28,25 +28,6 @@ docs:
       - title: "Classic"
         url: /categories/music-classic/
         
-
-  - title: Daily
-    children:
-      - title: "Daily Life"
-      - title: "Cafe"
-        url: /categories/daily-cafe/
-      - title: "Yammy"
-        url: /categories/daily-yammy/
-      - title: "Photos"
-        url: /categories/photo/
-
-
   - title: News
-    children:
-      - title: "News"
-        url: /categories/news/
-      - title: "Tech"
-        url: /categories/news-tech/
-      - title: "Celebrity"
-        url: /categories/news-celeb/
-      - title: "Events"
-        url: /categories/news-event/
+    url: /categories/news/
+    
