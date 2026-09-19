@@ -1,43 +1,43 @@
 <!-- 파일 위치: _includes/sidebar.html -->
 
-<!-- 1. 테마 기본 구조: 작성자 프로필(Avatar 및 소개 정보)을 불러와 출력합니다. -->
-{% if page.author %}
-  {% assign author = page.author %}
-{% elsif page.author_profile or layout.author_profile or site.author_profile %}
-  {% assign author = site.author %}
-{% endif %}
+<!-- 🌟 누락되었던 사이드바 전체 래퍼 태그 추가 🌟 -->
+<div class="sidebar sticky">
 
-{% if author and author.avatar %}
-  {% include author-profile.html %}
-{% endif %}
+  <!-- 1. 테마 기본 구조: 작성자 프로필(Avatar 및 소개 정보)을 불러와 출력합니다. -->
+  {% if page.author %}
+    {% assign author = page.author %}
+  {% elsif page.author_profile or layout.author_profile or site.author_profile %}
+    {% assign author = site.author %}
+  {% endif %}
+  
+  {% if author and author.avatar %}
+    {% include author-profile.html %}
+  {% endif %}
+  
+  <!-- 2. 테마 기본 구조: _data/navigation.yml 등에 설정된 왼쪽 사이드바 메뉴를 불러와 출력합니다. -->
+  {% if page.sidebar %}
+    {% for nav in page.sidebar %}
+      {% include nav_list nav=nav %}
+    {% endfor %}
+  {% endif %}
+  
+  <!-- 3. 커스텀 구조: 왼쪽 사이드바 하단에 구글 애드센스 디스플레이 광고를 삽입합니다. -->
+  <div class="custom-sidebar-ad" style="margin-top: 2rem; text-align: center;">
+    
+    <span style="display: block; font-size: 0.8em; color: #999999; margin-bottom: 10px;">Advertisement</span>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868289380135841" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-8868289380135841"
+         data-ad-slot="7501756193"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+  </div>
 
-<!-- 2. 테마 기본 구조: _data/navigation.yml 등에 설정된 왼쪽 사이드바 메뉴를 불러와 출력합니다. -->
-{% if page.sidebar %}
-  {% for nav in page.sidebar %}
-    {% include nav_list nav=nav %}
-  {% endfor %}
-{% endif %}
-
-<!-- 3. 커스텀 구조: 왼쪽 사이드바 하단에 구글 애드센스 디스플레이 광고를 삽입합니다. -->
-<div class="custom-sidebar-ad" style="margin-top: 2rem; text-align: center;">
-  
-  <!-- 독자가 광고임을 명확히 인지할 수 있도록 돕는 연한 회색 안내 문구입니다. -->
-  <span style="display: block; font-size: 0.8em; color: #999999; margin-bottom: 10px;">Advertisement</span>
-  
-  <!-- 구글 애드센스 시스템을 불러오는 필수 스크립트입니다. -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868289380135841" crossorigin="anonymous"></script>
-  
-  <!-- 실제 광고가 렌더링되는 영역입니다. -->
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-8868289380135841"
-       data-ad-slot="7501756193"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  
-  <!-- 광고를 화면에 밀어넣어(push) 표시하도록 명령하는 실행 스크립트입니다. -->
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  
+<!-- 🌟 사이드바 전체 래퍼 태그 닫기 🌟 -->
 </div>
