@@ -2,51 +2,67 @@
 title: "[아이유] 이별로부터 내 영혼의 단짝까지"
 layout: splash
 author_profile: false
-# header:
-#  overlay_color: "#000"
-#  overlay_filter: "0.3"
-#  overlay_image: /assets/images/245/img_1.jpg
-#  actions:
-#    - label: "Read more"
-#      url: "/245"
-#excerpt: "아이유의 이번 새 싱글 앨범에는 이별에 관한 노래와 아이유에겐 연상이지만 가장 친한 친구인 유인나를 위한 우정을 노래한 곡 2곡이 담겼습니다. "
 ---
 
-<!-- 1. 지킬(Liquid) 변수 선언 -->
-{% assign latest_post = site.posts.first %}
-{% assign latest_img = latest_post.header.overlay_image | default: latest_post.teaser | default: '/assets/images/default-hero.jpg' %}
+<!-- 1. 지킬(Liquid) 변수 설정: 3개의 슬라이드 데이터 추출 -->
+{% assign post1 = site.posts[0] %}
+{% assign img1 = post1.header.overlay_image | default: post1.teaser | default: '/assets/images/default-hero.jpg' %}
 
-<!-- CSS 스타일 정의 -->
+{% assign total_posts = site.posts.size %}
+{% assign recent_max = total_posts | at_most: 50 %}
+
+<!-- 빌드 시간을 활용한 랜덤 숫자 생성 (최근 50개 중) -->
+{% assign rand2 = site.time | date: "%s" | modulo: recent_max %}
+{% if rand2 == 0 %}{% assign rand2 = 1 %}{% endif %}
+{% assign post2 = site.posts[rand2] | default: site.posts[1] %}
+{% assign img2 = post2.header.overlay_image | default: post2.teaser | default: '/assets/images/default-hero.jpg' %}
+
+<!-- 빌드 시간을 활용한 랜덤 숫자 생성 (전체 중) -->
+{% assign rand3 = site.time | date: "%N" | modulo: total_posts %}
+{% if rand3 == 0 or rand3 == rand2 %}{% assign rand3 = 2 %}{% endif %}
+{% assign post3 = site.posts[rand3] | default: site.posts[2] %}
+{% assign img3 = post3.header.overlay_image | default: post3.teaser | default: '/assets/images/default-hero.jpg' %}
+
+
+<!-- 2. CSS 스타일 정의 -->
 <style>
-  .custom-hero-wrapper {
-    width: 100vw;
+  .custom-hero-carousel {
     position: relative;
+    width: 100vw;
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
     margin-bottom: 2rem;
-    background-color: #000000; /* 투명도 100%일 때 배경 틈새가 뜰 경우를 대비한 어두운 베이스 */
-    padding: 5rem 0; 
-    overflow: hidden;
+    background-color: #000000;
+    overflow: hidden; 
   }
-  
-  /* 배경 이미지용 가상 레이어 */
-  .custom-hero-wrapper::before {
+
+  .carousel-track {
+    display: flex;
+    width: 300%; 
+    transition: transform 0.6s ease-in-out; 
+  }
+
+  .carousel-slide {
+    width: 33.3333%;
+    position: relative;
+    padding: 5rem 0;
+  }
+
+  .carousel-slide::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: url('{{ latest_img | relative_url }}');
+    background-image: var(--bg-img);
     background-size: cover;
     background-position: center;
-    
-    /* [수정 2] 투명도를 1(100%)로 설정하여 배경 색감을 완전히 살림 */
-    opacity: 1;
-    filter: blur(20px);
+    opacity: 1; 
+    filter: blur(55px);
     transform: scale(1.15);
     z-index: 1;
   }
-  
+
   .custom-hero-inner {
     position: relative;
     z-index: 2;
@@ -56,181 +72,243 @@ author_profile: false
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8%; 
+    gap: 8%;
   }
-  
-  /* 왼쪽 텍스트 영역 */
-  .custom-hero-text {
-    flex: 1.3; 
-    text-align: left;
-  }
-  
+
+  .custom-hero-text { flex: 1.3; text-align: left; }
   .custom-hero-text h1 {
-    font-size: 2.1rem;
-    margin-bottom: 1rem;
-    color: #ffffff; 
-    line-height: 1.3;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.9); /* 배경이 진해졌으므로 텍스트 그림자를 약간 더 강하게 유지 */
+    font-size: 2.1rem; margin-bottom: 1rem; color: #ffffff;
+    line-height: 1.3; font-weight: 800; letter-spacing: -0.5px;
+    text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.9);
   }
-  
   .custom-hero-text p {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-    color: #ffffff; 
+    font-size: 1.15rem; line-height: 1.6; margin-bottom: 2rem; color: #ffffff;
     text-shadow: 0px 1px 6px rgba(0, 0, 0, 0.8);
   }
-  /* 버튼 스타일 */
+
   .custom-hero-btn {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: transparent;
-    color: #ffffff !important; /* 테마의 기본 파란색 링크를 무시하고 흰색을 강제 적용 */
-    border: 2px solid #ffffff;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    text-shadow: 0px 1px 3px rgba(0,0,0,0.8);
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.4);
+    display: inline-block; padding: 12px 25px; background-color: transparent;
+    color: #ffffff !important; border: 2px solid #ffffff; border-radius: 5px;
+    text-decoration: none; font-weight: bold; transition: all 0.3s ease;
+    text-shadow: 0px 1px 3px rgba(0,0,0,0.8); box-shadow: 0px 2px 5px rgba(0,0,0,0.4);
   }
-  
   .custom-hero-btn:hover {
-    background-color: #ffffff;
-    color: #222222 !important; /* 마우스 오버 시 기존처럼 어두운 색상 유지 */
-    text-shadow: none;
+    background-color: #ffffff; color: #222222 !important; text-shadow: none;
   }
 
-  /* 오른쪽 3D CD 케이스 이미지 영역 */
+  /* 🌟 CD 이미지 위치 변경: 왼쪽으로 30px 당김 🌟 */
   .custom-hero-visual {
-    flex: 0.7; 
-    display: flex;
-    justify-content: flex-end; 
-    align-items: center;
-    perspective: 1200px; 
+    flex: 0.7; display: flex; justify-content: flex-end;
+    align-items: center; perspective: 1200px;
+    transform: translateX(-30px); 
   }
 
-  /* [수정 1] rotateY를 음수로 변경하여 왼쪽이 화면 안쪽으로 물러나게 만듦 */
   @keyframes floatCD {
-    0% {
-      transform: rotateY(-18deg) rotateX(5deg) scale(1.05) translateY(0px);
-    }
-    50% {
-      transform: rotateY(-22deg) rotateX(1deg) scale(1.05) translateY(-15px);
-    }
-    100% {
-      transform: rotateY(-18deg) rotateX(5deg) scale(1.05) translateY(0px);
-    }
+    0% { transform: rotateY(-18deg) rotateX(5deg) scale(1.05) translateY(0px); }
+    50% { transform: rotateY(-22deg) rotateX(1deg) scale(1.05) translateY(-15px); }
+    100% { transform: rotateY(-18deg) rotateX(5deg) scale(1.05) translateY(0px); }
   }
-  
+
   .cd-case-img {
-    width: 100%;
-    max-width: 380px;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    
-    /* 아크릴(플라스틱) 느낌을 살린 밝고 투명한 두께 표현 */
-    box-shadow: 
-      inset 1px 0px 4px rgba(255, 255, 255, 0.6), /* 표면 안쪽의 부드러운 빛 반사 */
-      1px 0px 0px rgba(200, 200, 200, 0.9),       /* 플라스틱 모서리의 쨍한 하이라이트 */
-      2px 0px 0px rgba(190, 190, 190, 0.8),       /* 맑은 두께감 1 */
-      3px 0px 0px rgba(180, 180, 180, 0.7),       /* 맑은 두께감 2 */
-      4px 0px 0px rgba(170, 170, 170, 0.5),       /* 맑은 두께감 3 */
-      5px 0px 0px rgba(160, 160, 160, 0.3),       /* 굴절되어 살짝 그림자지는 끝부분 */
-      25px 35px 50px rgba(0, 0, 0, 0.5);          /* 바닥에 떨어지는 부드러운 진짜 그림자 */
-      
+    width: 100%; max-width: 380px; aspect-ratio: 1 / 1; object-fit: cover;
     border-radius: 2px 4px 4px 2px;
-    
-    animation: floatCD 6s ease-in-out infinite;
-    transition: box-shadow 0.6s ease;
-  }
-  
-  .cd-case-img:hover {
-    animation-play-state: paused;
-    transform: rotateY(-8deg) rotateX(2deg) scale(1.1);
+    animation: floatCD 6s ease-in-out infinite; transition: box-shadow 0.6s ease;
     box-shadow: 
-      inset 1px 0px 4px rgba(255, 255, 255, 0.8),
-      1px 0px 0px rgba(200, 200, 200, 0.9),       /* 플라스틱 모서리의 쨍한 하이라이트 */
-      2px 0px 0px rgba(190, 190, 190, 0.8),       /* 맑은 두께감 1 */
-      3px 0px 0px rgba(180, 180, 180, 0.7),       /* 맑은 두께감 2 */
-      4px 0px 0px rgba(170, 170, 170, 0.5),       /* 맑은 두께감 3 */
-      30px 40px 50px rgba(0, 0, 0, 0.4);
+      inset 1px 0px 4px rgba(255, 255, 255, 0.6),
+      1px 0px 0px rgba(255, 255, 255, 0.9),
+      2px 0px 0px rgba(245, 245, 245, 0.8),
+      3px 0px 0px rgba(230, 230, 230, 0.7),
+      4px 0px 0px rgba(210, 210, 210, 0.5),
+      5px 0px 0px rgba(180, 180, 180, 0.3),
+      25px 35px 50px rgba(0, 0, 0, 0.5);
   }
-  
+
+  /* 화살표 기본 디자인 (폭 좁게, 폰트 두껍게) */
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) scaleX(0.4);
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    font-size: 5rem;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 10;
+    padding: 1rem;
+    opacity: 0.2; 
+    transition: opacity 0.3s ease;
+  }
+  .carousel-arrow:hover { opacity: 1; }
+
+  /* 🌟 화살표 위치 배치: 데스크탑에서 좌우 여백의 정중앙에 위치 🌟 */
+  @media (min-width: 1280px) {
+    .carousel-arrow.left { left: calc((100vw - 1280px) / 10); }
+    .carousel-arrow.right { right: calc((100vw - 1280px) / 10); }
+  }
+  /* 작은 모니터나 태블릿 환경에서는 가장자리에 여백을 약간 주고 붙임 */
+  @media (max-width: 1279px) {
+    .carousel-arrow.left { left: 1vw; }
+    .carousel-arrow.right { right: 1vw; }
+  }
+
+  .carousel-dots {
+    position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 10;
+  }
+  .dot {
+    width: 10px; height: 10px; background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%; cursor: pointer; transition: 0.3s;
+  }
+  .dot.active { background-color: #ffffff; transform: scale(1.2); }
+
+  /* 🌟 모바일 환경 대응: 이미지 중앙 정렬 완벽 복원 🌟 */
   @media (max-width: 768px) {
-    .custom-hero-inner {
-      flex-direction: column;
-      padding: 0 2em;
-    }
-    .custom-hero-visual {
-      justify-content: center;
-      margin-top: 2rem;
+    .custom-hero-inner { flex-direction: column; padding: 0 2em; }
+    .custom-hero-text { order: 2; text-align: center; }
+    .custom-hero-visual { 
+      order: 1; justify-content: center; margin-bottom: 3rem; 
+      transform: translateX(0); /* 왼쪽 이동값 해제하여 화면 중앙에 완벽 배치 */
     }
   }
 </style>
 
-<!-- 2. 풀와이드 동적 히어로 영역 HTML -->
-<div class="custom-hero-wrapper">
-  <div class="custom-hero-inner">
+
+<!-- 3. HTML 카루셀 구조 -->
+<div class="custom-hero-carousel">
+  <div class="carousel-track" id="track">
     
-    <div class="custom-hero-text">
-      <h1>{{ latest_post.title }}</h1>
-      <p>{{ latest_post.excerpt | strip_html | truncate: 100 }}</p>
-      <a href="{{ latest_post.url | relative_url }}" class="custom-hero-btn">Read more</a>
+    <!-- 슬라이드 1 -->
+    <div class="carousel-slide" style="--bg-img: url('{{ img1 | relative_url }}')">
+      <div class="custom-hero-inner">
+        <div class="custom-hero-text">
+          <h1>{{ post1.title }}</h1>
+          <p>{{ post1.excerpt | strip_html | truncate: 100 }}</p>
+          <a href="{{ post1.url | relative_url }}" class="custom-hero-btn">Read more</a>
+        </div>
+        <div class="custom-hero-visual">
+          <img src="{{ img1 | relative_url }}" alt="{{ post1.title }}" class="cd-case-img">
+        </div>
+      </div>
     </div>
-    
-    <div class="custom-hero-visual">
-      <img src="{{ latest_img | relative_url }}" alt="{{ latest_post.title }}" class="cd-case-img">
+
+    <!-- 슬라이드 2 -->
+    <div class="carousel-slide" style="--bg-img: url('{{ img2 | relative_url }}')">
+      <div class="custom-hero-inner">
+        <div class="custom-hero-text">
+          <h1>{{ post2.title }}</h1>
+          <p>{{ post2.excerpt | strip_html | truncate: 100 }}</p>
+          <a href="{{ post2.url | relative_url }}" class="custom-hero-btn">Read more</a>
+        </div>
+        <div class="custom-hero-visual">
+          <img src="{{ img2 | relative_url }}" alt="{{ post2.title }}" class="cd-case-img">
+        </div>
+      </div>
     </div>
-    
+
+    <!-- 슬라이드 3 -->
+    <div class="carousel-slide" style="--bg-img: url('{{ img3 | relative_url }}')">
+      <div class="custom-hero-inner">
+        <div class="custom-hero-text">
+          <h1>{{ post3.title }}</h1>
+          <p>{{ post3.excerpt | strip_html | truncate: 100 }}</p>
+          <a href="{{ post3.url | relative_url }}" class="custom-hero-btn">Read more</a>
+        </div>
+        <div class="custom-hero-visual">
+          <img src="{{ img3 | relative_url }}" alt="{{ post3.title }}" class="cd-case-img">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="carousel-arrow left" id="btnPrev">&lt;</button>
+  <button class="carousel-arrow right" id="btnNext">&gt;</button>
+  
+  <div class="carousel-dots">
+    <span class="dot active" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+    <span class="dot" data-index="2"></span>
   </div>
 </div>
 
+
+<!-- 4. 슬라이드 제어 자바스크립트 -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const track = document.getElementById('track');
+    const dots = document.querySelectorAll('.dot');
+    let currentIndex = 0;
+    let timer;
+
+    function goToSlide(index) {
+      if (index < 0) index = 2; 
+      if (index > 2) index = 0; 
+      
+      currentIndex = index;
+      track.style.transform = `translateX(-${currentIndex * 33.3333}%)`;
+      
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[currentIndex].classList.add('active');
+    }
+
+    document.getElementById('btnNext').addEventListener('click', () => {
+      goToSlide(currentIndex + 1);
+      resetTimer(); 
+    });
+    
+    document.getElementById('btnPrev').addEventListener('click', () => {
+      goToSlide(currentIndex - 1);
+      resetTimer();
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+        resetTimer();
+      });
+    });
+
+    function startTimer() {
+      timer = setInterval(() => goToSlide(currentIndex + 1), 5000);
+    }
+    
+    function resetTimer() {
+      clearInterval(timer);
+      startTimer();
+    }
+
+    startTimer(); 
+  });
+</script>
+
 <style>
-  /* 기본 여백 제거 및 중앙 정렬 컨테이너 */
-  .page__inner-wrap {
-    max-width: 100% !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-  .content-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1em;
-  }
+  .page__inner-wrap { max-width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
+  .content-container { max-width: 1280px; margin: 0 auto; padding: 0 1em; }
 
-  /* =========================================
-     랜덤 가사 인트로 영역 CSS (여백 50% 축소)
-     ========================================= */
-  .custom-intro {
-    text-align: center;
-    padding: 30px 20px 20px; /* 기존 60px 20px 40px 에서 상하 여백 대폭 감소 */
-    margin-bottom: 10px;     /* 기존 20px 에서 10px로 감소 */
+  /* 랜덤 가사 영역 CSS */
+  .custom-intro { 
+    text-align: center; 
+    padding: 30px 20px 20px; 
+    margin-bottom: 10px; 
   }
-  .custom-intro .lyric-text {
+  
+  .custom-intro .lyric-text { 
     font-style: italic; 
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 1.2rem; 
+    color: #333; 
+    margin-bottom: 15px; 
+    /* 🌟 가사에만 명조체(Serif) 계열 폰트를 최우선으로 적용합니다 🌟 */
+    font-family: 'Noto Serif KR', 'Nanum Myeongjo', 'Batang', '바탕', serif;
   }
-  .custom-intro .lyric-artist {
-    font-size: 0.95rem;
-    color: #666;
+  
+  .custom-intro .lyric-artist { 
+    font-size: 0.95rem; 
+    color: #666; 
   }
 
-  /* =========================================
-     피처 로우 영역 CSS (여백 50% 축소)
-     ========================================= */
-  .feature-row { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: flex-start; 
-    gap: 40px; 
-    padding: 30px 0; /* 기존 60px 에서 30px로 상하 간격 감소 */
-    border-bottom: 1px solid #f2f3f3; 
-  }
+  /* 피처 로우 영역 CSS */
+  .feature-row { display: flex; flex-direction: column; align-items: flex-start; gap: 40px; padding: 30px 0; border-bottom: 1px solid #f2f3f3; }
   .feature-row:last-of-type { border-bottom: none; }
   
   @media (min-width: 768px) {
@@ -242,20 +320,11 @@ author_profile: false
   .feature-img { flex: 1; width: 100%; }
   .feature-img img { width: 100%; height: auto; border-radius: 4px; display: block; }
   
-  .feature-text { 
-    flex: 1; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: flex-start; 
-    align-items: flex-start; 
-    padding: 0; 
-  }
+  .feature-text { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; padding: 0; }
   .feature-text h2 { margin-top: 0; font-size: 1.5rem; font-weight: bold; margin-bottom: 15px; }
   .feature-text p { color: #494e52; line-height: 1.6; margin-bottom: 25px; }
   
-  /* =========================================
-     CD 커버 갤러리 영역 CSS 
-     ========================================= */
+  /* 무한 스크롤 갤러리 영역 CSS */
   .custom-gallery-grid { display: grid; gap: 24px; margin-top: 2em; grid-template-columns: repeat(1, 1fr); }
   @media (min-width: 768px) { .custom-gallery-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 1024px) { .custom-gallery-grid { grid-template-columns: repeat(4, 1fr); } }
@@ -269,17 +338,14 @@ author_profile: false
 
 <div class="content-container">
 
-  <!-- 랜덤 가사 출력 HTML 영역 -->
   <div class="custom-intro">
     <div class="lyric-text" id="random-lyric-text">"..."</div>
     <div class="lyric-artist" id="random-lyric-artist">- -</div>
   </div>
   
-  <!-- 구분선 -->
   <hr style="border: 0; border-top: 1px solid #f2f3f3; margin: 0;">
 
-  <!-- 피처 로우 영역 (시작 마진 50% 축소) -->
-  <div style="margin-top: 10px;"> <!-- 기존 20px 에서 10px로 감소 -->
+  <div style="margin-top: 10px;"> 
     {% for post in site.posts limit:2 offset:1 %}
       <div class="feature-row {% if forloop.index == 2 %}reverse{% endif %}">
         <div class="feature-img">
@@ -296,8 +362,7 @@ author_profile: false
     {% endfor %}
   </div>
 
-  <!-- 무한 스크롤 갤러리 영역 (상단 마진 50% 축소) -->
-  <h2 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">More Music Collection</h2> <!-- 기존 80px 에서 40px로 감소 -->
+  <h2 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">More Music Collection</h2> 
   
   <div class="custom-gallery-grid" id="gallery-grid">
     {% for post in site.posts offset:3 %}
@@ -320,7 +385,6 @@ author_profile: false
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     
-    // 랜덤 가사 자바스크립트 로직 (innerHTML 적용 완료)
     const lyricsList = [
       {% for lyric in site.data.lyrics %}
         { text: "{{ lyric.text }}", artist: "{{ lyric.artist }}" }{% unless forloop.last %},{% endunless %}
@@ -335,7 +399,6 @@ author_profile: false
       document.getElementById('random-lyric-artist').innerHTML = "- " + selectedLyric.artist;
     }
 
-    // 무한 스크롤 자바스크립트 로직
     const items = document.querySelectorAll('.gallery-item-card');
     const sentinel = document.getElementById('scroll-sentinel');
     let currentVisible = 16;

@@ -4,3 +4,21 @@
 
 <!-- 네이버 서치어드바이저 소유권 확인 -->
 <meta name="naver-site-verification" content="187fdf62e29efea92a08a634b20a8cc373e7b98f" />
+
+<!-- 🌟 본문 너비 860px 확장을 위한 커스텀 CSS 🌟 -->
+<style>
+  /* 1. 사이드바와 본문이 들어가는 전체 메인 컨테이너 공간 확보 */
+  #main {
+    max-width: 1500px !important; 
+  }
+
+  /* 2. 포스팅 전체 래퍼(본문 영역 + 오른쪽 목차 영역) 넓이 확장 */
+  .page {
+    max-width: 1200px !important; 
+  }
+
+  /* 3. 실제 마크다운 텍스트와 오픈그래프 링크 카드 등이 담기는 핵심 본문 영역 */
+  .page__inner-wrap {
+    max-width: 860px !important;
+  }
+</style>
