@@ -1,128 +1,94 @@
-<!-- 파일 위치: _includes/auto-link.html -->
-
-<!-- 1. 비어있는 카드 UI 뼈대 (자바스크립트가 채워줄 공간) -->
-<a href="{{ include.url }}" target="_blank" rel="noopener noreferrer" class="custom-link-card auto-link-wrapper">
-  <div class="link-card-image"></div>
+<!-- 파일 위치: _includes/link-card.html -->
+<a href="{{ include.url }}" target="_blank" rel="noopener noreferrer" class="custom-link-card">
+  <!-- 왼쪽 이미지 영역 -->
+  <div class="link-card-image" style="background-image: url('{{ include.image }}');"></div>
+  
+  <!-- 오른쪽 텍스트 영역 -->
   <div class="link-card-content">
-    <div class="link-card-title">링크 정보를 불러오는 중...</div>
-    <div class="link-card-desc">{{ include.url }}</div>
-    <div class="link-card-domain"></div>
+    <div class="link-card-title">{{ include.title }}</div>
+    <div class="link-card-desc">{{ include.description }}</div>
+    <div class="link-card-domain">{{ include.domain }}</div>
   </div>
 </a>
 
-<!-- 2. 정보를 긁어오는 자바스크립트 로직 -->
-<script>
-  (function() {
-    // 마크다운에서 입력받은 URL 변수
-    const targetUrl = "{{ include.url }}";
-    
-    // 현재 실행 중인 스크립트 바로 위에 있는 <a> 태그(카드 뼈대)를 선택
-    const currentScript = document.currentScript;
-    const cardElement = currentScript.previousElementSibling;
-    
-    // 카드 안의 텍스트와 이미지가 들어갈 위치 찾기
-    const titleEl = cardElement.querySelector('.link-card-title');
-    const descEl = cardElement.querySelector('.link-card-desc');
-    const imgEl = cardElement.querySelector('.link-card-image');
-    const domainEl = cardElement.querySelector('.link-card-domain');
-
-    // 1단계: URL에서 깔끔한 도메인 이름만 추출 (예: booksmuze.com)
-    try {
-      domainEl.innerText = new URL(targetUrl).hostname.replace('www.', '');
-    } catch(e) {}
-
-    // 2단계: Microlink API를 호출해 Open Graph 메타데이터를 가져옴
-    fetch(`https://api.microlink.io?url=${encodeURIComponent(targetUrl)}`)
-      .then(res => res.json())
-      .then(data => {
-        if(data.status === 'success') {
-          const info = data.data;
-          
-          // 받아온 정보가 있으면 카드에 내용 채우기
-          if(info.title) titleEl.innerText = info.title;
-          if(info.description) descEl.innerText = info.description;
-          
-          // 메인 이미지가 있으면 넣고, 없으면 사이트 로고라도 대체해서 넣음
-          if(info.image && info.image.url) {
-            imgEl.style.backgroundImage = `url('${info.image.url}')`;
-          } else if(info.logo && info.logo.url) {
-            imgEl.style.backgroundImage = `url('${info.logo.url}')`;
-          }
-        } else {
-          // 사이트에서 데이터 접근을 막아둔 경우
-          titleEl.innerText = "해당 웹사이트로 이동하기";
-        }
-      })
-      .catch(err => {
-        titleEl.innerText = "해당 웹사이트로 이동하기";
-      });
-  })();
-</script>
-
-<!-- 3. 링크 카드 CSS 디자인 -->
 <style>
+  /* 링크 카드 전체 박스 디자인 */
   .custom-link-card {
     display: flex;
     border: 1px solid #e1e4e8;
-    border-radius: 6px;
+    border-radius: 4px; /* 테두리를 살짝 둥글게 */
     overflow: hidden;
-    text-decoration: none !important;
+    text-decoration: none !important; /* 링크 밑줄 제거 */
     color: inherit !important;
-    margin: 2rem 0;
+    margin: 2rem 0; /* 위아래 여백 */
     background-color: #ffffff;
     transition: box-shadow 0.2s ease;
-    height: 140px;
+    height: 140px; /* 카드의 고정 높이 */
   }
+
+  /* 마우스 오버 시 그림자 효과 */
   .custom-link-card:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
+
+  /* 왼쪽 이미지 박스 디자인 */
   .link-card-image {
-    width: 160px;
+    width: 160px; /* 이미지 영역 너비 */
     flex-shrink: 0;
-    background-size: cover;
+    background-size: contain; /* 이미지가 잘리지 않게 비율 유지 */
+    background-repeat: no-repeat;
     background-position: center;
-    background-color: #f6f8fa;
-    border-right: 1px solid #e1e4e8;
+    background-color: #fdfdfd;
+    border-right: 1px solid #e1e4e8; /* 이미지와 텍스트 사이 구분선 */
   }
+
+  /* 오른쪽 텍스트 컨테이너 */
   .link-card-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 1.2rem 1.5rem;
+    padding: 1.5rem;
     overflow: hidden;
     flex: 1;
   }
+
+  /* 제목 스타일 */
   .link-card-title {
     font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    color: #24292e;
+    text-overflow: ellipsis; /* 글자가 넘치면 ... 처리 */
+    color: #222222;
   }
+
+  /* 설명 스타일 */
   .link-card-desc {
-    font-size: 0.9rem;
-    color: #586069;
-    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    color: #666666;
+    margin-bottom: 1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 2; /* 최대 2줄까지만 표시 */
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* 하단 도메인 주소 스타일 */
   .link-card-domain {
-    font-size: 0.8rem;
-    color: #959da5;
-    text-transform: lowercase;
+    font-size: 0.85rem;
+    color: #999999;
   }
+
+  /* 모바일 화면(작은 화면)에서의 반응형 디자인 */
   @media (max-width: 600px) {
     .custom-link-card {
-      flex-direction: column;
+      flex-direction: column; /* 세로로 배치 */
       height: auto;
     }
     .link-card-image {
       width: 100%;
-      height: 160px;
+      height: 180px;
       border-right: none;
       border-bottom: 1px solid #e1e4e8;
     }

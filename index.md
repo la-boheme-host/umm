@@ -1,5 +1,6 @@
 ---
-title: "[아이유] 이별로부터 내 영혼의 단짝까지"
+masthead_title: "음 - La bohème by @haanss"
+# title: "[아이유] 이별로부터 내 영혼의 단짝까지"
 layout: splash
 author_profile: false
 ---
@@ -70,12 +71,30 @@ author_profile: false
     margin: 0 auto;
     padding: 0 1em;
     display: flex;
-    align-items: center;
+    align-items: center; /* 우측 CD 이미지는 중앙에 유지 */
     justify-content: space-between;
     gap: 8%;
   }
 
-  .custom-hero-text { flex: 1.3; text-align: left; }
+  /* 🌟 텍스트 영역 상단 정렬 및 여백 설정 🌟 */
+  .custom-hero-text { 
+    flex: 1.3; 
+    text-align: left; 
+    align-self: flex-start; /* 텍스트 상자를 위로 끌어올립니다 */
+    margin-top: 60px; /* 원하는 상단 여백 설정 (필요시 숫자 조정) */
+  }
+  
+  .custom-hero-category {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #cc3333; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8); 
+  }
+
   .custom-hero-text h1 {
     font-size: 2.1rem; margin-bottom: 1rem; color: #ffffff;
     line-height: 1.3; font-weight: 800; letter-spacing: -0.5px;
@@ -96,7 +115,6 @@ author_profile: false
     background-color: #ffffff; color: #222222 !important; text-shadow: none;
   }
 
-  /* 🌟 CD 이미지 위치 변경: 왼쪽으로 30px 당김 🌟 */
   .custom-hero-visual {
     flex: 0.7; display: flex; justify-content: flex-end;
     align-items: center; perspective: 1200px;
@@ -123,7 +141,6 @@ author_profile: false
       25px 35px 50px rgba(0, 0, 0, 0.5);
   }
 
-  /* 화살표 기본 디자인 (폭 좁게, 폰트 두껍게) */
   .carousel-arrow {
     position: absolute;
     top: 50%;
@@ -141,12 +158,10 @@ author_profile: false
   }
   .carousel-arrow:hover { opacity: 1; }
 
-  /* 🌟 화살표 위치 배치: 데스크탑에서 좌우 여백의 정중앙에 위치 🌟 */
   @media (min-width: 1280px) {
     .carousel-arrow.left { left: calc((100vw - 1280px) / 10); }
     .carousel-arrow.right { right: calc((100vw - 1280px) / 10); }
   }
-  /* 작은 모니터나 태블릿 환경에서는 가장자리에 여백을 약간 주고 붙임 */
   @media (max-width: 1279px) {
     .carousel-arrow.left { left: 1vw; }
     .carousel-arrow.right { right: 1vw; }
@@ -162,13 +177,19 @@ author_profile: false
   }
   .dot.active { background-color: #ffffff; transform: scale(1.2); }
 
-  /* 🌟 모바일 환경 대응: 이미지 중앙 정렬 완벽 복원 🌟 */
   @media (max-width: 768px) {
     .custom-hero-inner { flex-direction: column; padding: 0 2em; }
-    .custom-hero-text { order: 2; text-align: center; }
+    
+    /* 🌟 모바일 환경에서 정렬 초기화 🌟 */
+    .custom-hero-text { 
+      order: 2; 
+      text-align: center; 
+      align-self: center; /* 텍스트를 다시 중앙으로 복구 */
+      margin-top: 0; /* 강제 할당된 여백 제거 */
+    }
     .custom-hero-visual { 
       order: 1; justify-content: center; margin-bottom: 3rem; 
-      transform: translateX(0); /* 왼쪽 이동값 해제하여 화면 중앙에 완벽 배치 */
+      transform: translateX(0); 
     }
   }
 </style>
@@ -182,6 +203,12 @@ author_profile: false
     <div class="carousel-slide" style="--bg-img: url('{{ img1 | relative_url }}')">
       <div class="custom-hero-inner">
         <div class="custom-hero-text">
+          {% if post1.categories.size > 1 %}
+            <span class="custom-hero-category">{{ post1.categories[1] }}</span>
+          {% elsif post1.categories.size > 0 %}
+            <span class="custom-hero-category">{{ post1.categories[0] }}</span>
+          {% endif %}
+          
           <h1>{{ post1.title }}</h1>
           <p>{{ post1.excerpt | strip_html | truncate: 100 }}</p>
           <a href="{{ post1.url | relative_url }}" class="custom-hero-btn">Read more</a>
@@ -196,6 +223,12 @@ author_profile: false
     <div class="carousel-slide" style="--bg-img: url('{{ img2 | relative_url }}')">
       <div class="custom-hero-inner">
         <div class="custom-hero-text">
+          {% if post2.categories.size > 1 %}
+            <span class="custom-hero-category">{{ post2.categories[1] }}</span>
+          {% elsif post2.categories.size > 0 %}
+            <span class="custom-hero-category">{{ post2.categories[0] }}</span>
+          {% endif %}
+          
           <h1>{{ post2.title }}</h1>
           <p>{{ post2.excerpt | strip_html | truncate: 100 }}</p>
           <a href="{{ post2.url | relative_url }}" class="custom-hero-btn">Read more</a>
@@ -210,6 +243,12 @@ author_profile: false
     <div class="carousel-slide" style="--bg-img: url('{{ img3 | relative_url }}')">
       <div class="custom-hero-inner">
         <div class="custom-hero-text">
+          {% if post3.categories.size > 1 %}
+            <span class="custom-hero-category">{{ post3.categories[1] }}</span>
+          {% elsif post3.categories.size > 0 %}
+            <span class="custom-hero-category">{{ post3.categories[0] }}</span>
+          {% endif %}
+          
           <h1>{{ post3.title }}</h1>
           <p>{{ post3.excerpt | strip_html | truncate: 100 }}</p>
           <a href="{{ post3.url | relative_url }}" class="custom-hero-btn">Read more</a>
@@ -298,7 +337,6 @@ author_profile: false
     font-size: 1.2rem; 
     color: #333; 
     margin-bottom: 15px; 
-    /* 🌟 가사에만 명조체(Serif) 계열 폰트를 최우선으로 적용합니다 🌟 */
     font-family: 'Noto Serif KR', 'Nanum Myeongjo', 'Batang', '바탕', serif;
   }
   
