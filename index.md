@@ -37,11 +37,15 @@ author_profile: false
     margin-bottom: 2rem;
     background-color: #000000;
     overflow: hidden; 
+    /* 🌟 1. 전체 카루셀 영역 높이를 680px로 강제 고정합니다 */
+    height: 653px;
   }
 
   .carousel-track {
     display: flex;
     width: 300%; 
+    /* 🌟 2. 부모의 680px 높이를 상속받아 꽉 채웁니다 */
+    height: 100%;
     transition: transform 0.6s ease-in-out; 
   }
 
@@ -49,6 +53,9 @@ author_profile: false
     width: 33.3333%;
     position: relative;
     padding: 5rem 0;
+    display: flex;
+    align-items: center; /* 🌟 3. 고정된 680px 높이 내에서 내부 요소를 수직 중앙에 배치합니다 */
+    /* padding: 2.5rem 0; 삭제됨 (높이가 고정되었으므로 패딩으로 조절하지 않음) */
   }
 
   .carousel-slide::before {
@@ -59,7 +66,7 @@ author_profile: false
     background-size: cover;
     background-position: center;
     opacity: 1; 
-    filter: blur(55px);
+    filter: blur(40px);
     transform: scale(1.15);
     z-index: 1;
   }
@@ -67,6 +74,7 @@ author_profile: false
   .custom-hero-inner {
     position: relative;
     z-index: 2;
+    width: 100%; /* flex 자식으로서 너비 보장 */
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 1em;
@@ -88,7 +96,7 @@ author_profile: false
     display: inline-block;
     font-size: 1rem;
     font-weight: 700;
-    color: #cc3333; 
+    color: #dd3030; 
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 5px;
@@ -96,7 +104,7 @@ author_profile: false
   }
 
   .custom-hero-text h1 {
-    font-size: 2.1rem; margin-bottom: 1rem; color: #ffffff;
+    font-size: 2rem; margin-bottom: 1rem; color: #ffffff;
     line-height: 1.3; font-weight: 800; letter-spacing: -0.5px;
     text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.9);
   }
